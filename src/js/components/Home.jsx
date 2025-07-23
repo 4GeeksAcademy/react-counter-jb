@@ -1,28 +1,32 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { FaRegClock } from "react-icons/fa";
+import "../../styles/index.css";
 
-//include images into your bundle
-import rigoImage from "../../img/rigo-baby.jpg";
+const SecondsCounter = () => {
+  const [seconds, setSeconds] = useState(0);
 
-//create your first component
-const Home = () => {
-	return (
-		<div className="text-center">
-            
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setSeconds(prev => prev + 1);
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
-			<h1 className="text-center mt-5">Hello Rigo!</h1>
-			<p>
-				<img src={rigoImage} />
-			</p>
-			<a href="#" className="btn btn-success">
-				If you see this green button... bootstrap is working...
-			</a>
-			<p>
-				Made by{" "}
-				<a href="http://www.4geeksacademy.com">4Geeks Academy</a>, with
-				love!
-			</p>
-		</div>
-	);
+  const digits = String(seconds).padStart(6, "0").split("");
+
+  return (
+    <div className="counter-container">
+      <div className="digit">
+        <FaRegClock />
+      </div>
+      {digits.map((digit, index) => (
+        <div className="digit" key={index}>
+          {digit}
+        </div>
+      ))}
+    </div>
+  );
 };
 
-export default Home;
+export default SecondsCounter;
+
